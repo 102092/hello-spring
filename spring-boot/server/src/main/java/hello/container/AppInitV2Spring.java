@@ -6,7 +6,7 @@ import jakarta.servlet.ServletRegistration;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-public class AppInitV2Spring implements AppInit{
+public class AppInitV2Spring implements AppInit {
     @Override
     public void onStartUp(ServletContext servletContext) {
         System.out.println("AppInitV2Spring.onStartUp");
