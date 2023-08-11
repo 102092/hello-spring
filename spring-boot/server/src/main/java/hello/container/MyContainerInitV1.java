@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 
 import java.util.Set;
 
+// initialize servlet container
 public class MyContainerInitV1 implements ServletContainerInitializer {
 
     // WAS 가 실행될 때, 실행된다
