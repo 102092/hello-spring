@@ -23,6 +23,10 @@ tasks.named('test') {
 }
 
 //일반 Jar 생성
+// 실행해서, jar 만들고, build/libs 내부가서 java -jar 로 실행하면 에러 ( java.lang.NoClassDefFoundError: org/springframework/web/context/WebApplicationContext)
+// 왜?
+// library가 없다. 내가 작성한 소스코드만 있음
+// jar 파일은 jar파일을 포함할 수 없음. 즉 war 내부 lib 디렉토리 내부에 있던 라이브러리들이 없다!
 task buildJar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'hello.embed.EmbedTomcatSpringMain'
@@ -30,12 +34,16 @@ task buildJar(type: Jar) {
     with jar
 }
 
+// jar 내부에는 jar를 포함할 수 없다는 문제점 때문에 나온 방식
 //Fat Jar 생성
 task buildFatJar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'hello.embed.EmbedTomcatSpringMain'
     }
+    // 파일명 중복일때, 어떻게 해결해야하는지에 대한 고민
+    // 현재 옵션은 경고
     duplicatesStrategy = DuplicatesStrategy.WARN
+    // External library 내부에 클래스등의 정보를 모두 뽑아서 jar로 만든다.
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
