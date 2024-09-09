@@ -2,14 +2,12 @@ package tobyspring.hellospring;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
@@ -27,15 +25,10 @@ public class PaymentService {
         ObjectMapper objectMapper = new ObjectMapper();
         ExRateData exRateData = objectMapper.readValue(response, ExRateData.class);
         BigDecimal krw = exRateData.rates().get("KRW");
-
-        System.out.println(krw);
-        System.out.println();
-
-        // 금액 계산
+        
         BigDecimal convertedAmount = foreignCurrencyAmount.multiply(krw);
         LocalDateTime validUntil = LocalDateTime.now().plusMinutes(30);
 
-        // 유효시간 계산
         return new Payment(orderId, currency, foreignCurrencyAmount, krw, convertedAmount, validUntil);
     }
 
